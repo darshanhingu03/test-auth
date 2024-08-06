@@ -17,10 +17,12 @@ const Signup = () => {
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
   const [qrCode, setQrCode] = useState(null);
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false); // Add state for button disabled status
   const navigate = useNavigate(); // Initialize useNavigate
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true); // Disable the button when form is submitted
     try {
       const data = await signup(email, password, twoFactorEnabled);
       if (data.twoFactorEnabled) {
@@ -32,6 +34,7 @@ const Signup = () => {
       } else {
         setError("An unexpected error occurred. Please try again.");
       }
+      setIsSubmitting(false); // Re-enable the button if there's an error
     }
   };
 
@@ -75,6 +78,7 @@ const Signup = () => {
           variant="contained"
           color="primary"
           style={{ marginTop: "20px" }}
+          disabled={isSubmitting} // Disable the button based on state
         >
           Signup
         </Button>

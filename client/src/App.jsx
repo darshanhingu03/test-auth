@@ -22,6 +22,7 @@ import Welcome from "./pages/Welcome";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import Home from "./pages/Home";
+import ProtectedRoute from "./router/ProtectedRoute";
 
 const theme = createTheme({
   palette: {
@@ -50,7 +51,14 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/welcome" element={<Welcome />} />
+            <Route
+              path="/welcome"
+              element={
+                <ProtectedRoute>
+                  <Welcome />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </AuthProvider>
       </Router>

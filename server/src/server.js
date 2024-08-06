@@ -46,6 +46,12 @@ const sendVerificationEmail = async (user, token) => {
 app.post("/signup", async (req, res) => {
   const { email, password, twoFactorEnabled } = req.body;
 
+  // Check if email already exists
+  const existingUser = await prisma.user.findUnique({ where: { email } });
+  if (existingUser) {
+    return res.status(400).json({ error: "Email already exists" });
+  }
+
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const user = await prisma.user.create({
